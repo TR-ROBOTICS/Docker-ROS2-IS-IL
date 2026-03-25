@@ -1,4 +1,4 @@
-# Proyecto: ROS2 Humble + Isaac Sim / Isaac Lab
+# Instalación Docker de ROS2 Humble + Isaac Sim / Isaac Lab
 
 ## 1. Resumen general
 
