@@ -30,6 +30,13 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
+
+    WORKDIR /opt/unitree
+    RUN git clone https://github.com/unitreerobotics/unitree_sdk2_python.git && \
+        cd unitree_sdk2_python && \
+        pip install -e .
+
+
 # 5. Configurar variables de entorno clave (ROS y DDS)
 ENV ROS_DOMAIN_ID=0
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
