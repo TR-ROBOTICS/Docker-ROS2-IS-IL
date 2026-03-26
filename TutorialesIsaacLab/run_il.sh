@@ -29,5 +29,5 @@ docker run --name isaac-lab --entrypoint bash -it --rm \
     -v $ISAAC_SIM_DIR/logs:/root/.nvidia-omniverse/logs:rw \
     -v $ISAAC_SIM_DIR/data:/root/.local/share/ov/data:rw \
     -v $ISAAC_SIM_DIR/documents:/root/Documents:rw \
-    -v "$CURRENT_DIR":/workspace/isaaclab/"$DIR_NAME":rw \
+    -v "$CURRENT_DIR":/"$DIR_NAME":rw \
     $IMAGE_NAME

@@ -19,6 +19,8 @@ mkdir -p $ISAAC_SIM_DIR/cache/computecache
 mkdir -p $ISAAC_SIM_DIR/logs
 mkdir -p $ISAAC_SIM_DIR/data
 mkdir -p $ISAAC_SIM_DIR/documents
+mkdir -p $ISAAC_SIM_DIR/cache/main
+ 
 
 echo "Aplicando permisos..."
 # Abrimos los permisos  para poder modificarlas desde docker. Esto se hace para

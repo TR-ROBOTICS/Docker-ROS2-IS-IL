@@ -1,0 +1,3 @@
+#Ignorar carpeta de unitree con IS e ROS
+unitree_ws/
+.vscode/

@@ -24,6 +24,6 @@ docker run --name isaac-sim --entrypoint bash -it --rm \
     -v $ISAAC_SIM_DIR/config:/isaac-sim/.nvidia-omniverse/config:rw \
     -v $ISAAC_SIM_DIR/data:/isaac-sim/.local/share/ov/data:rw \
     -v $ISAAC_SIM_DIR/pkg:/isaac-sim/.local/share/ov/pkg:rw \
-    -v "$CURRENT_DIR":/isaac-sim/"$DIR_NAME":rw \
+    -v "$CURRENT_DIR":/"$DIR_NAME":rw \
     -u 1234:1234 \
     $IMAGE \
