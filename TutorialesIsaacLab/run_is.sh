@@ -10,7 +10,7 @@ DIR_NAME=$(basename "$CURRENT_DIR")
 xhost +local:
 
 # 3. Lanzar el contenedor y ejecutar Isaac Sim directamente
-docker run --name isaac-sim-"$USER" --entrypoint bash -it --rm \
+docker run --name "$USER"-isaac-sim --entrypoint bash -it --rm \
     --gpus all \
     --network=host \
     -e "ACCEPT_EULA=Y" \

@@ -12,7 +12,7 @@ xhost +local:
 # IMPORTANTE: 
 # --network=host y --ipc=host son la clave absoluta para que hable con Isaac Sim
 docker run -it --rm \
-    --name ros2-humble-env-"$USER" \
+    --name "$USER"-ros2-humble-unitreesdk \
     --network=host \
     --ipc=host \
     -e DISPLAY=$DISPLAY \

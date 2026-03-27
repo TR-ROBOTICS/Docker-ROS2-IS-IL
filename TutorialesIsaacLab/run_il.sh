@@ -12,7 +12,7 @@ xhost +local:
 
 # 4. Lanzar el contenedor de Isaac Lab
 
-docker run --name isaac-lab-"$USER" --entrypoint bash -it --rm \
+docker run --name "$USER"-isaac-lab --entrypoint bash -it --rm \
     --gpus all \
     --network=host \
     --ipc=host \
