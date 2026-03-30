@@ -14,6 +14,8 @@ COPY fastdds.xml /opt/ros/fastdds.xml
 
 # 4. Instalar herramientas necesarias
 RUN apt-get update && apt-get install -y \
+    sudo\
+    gosu \  
     git \
     ros-humble-joint-state-publisher-gui \
     ros-humble-ros2-control \
@@ -41,13 +43,16 @@ RUN git clone https://github.com/unitreerobotics/unitree_sdk2_python.git && \
     pip install -e .
     
 # 6. Compilar e instalar los paquetes de ROS de unitree
-COPY workspace/cyclonedds_ws /opt/unitree_ros2_libs
+COPY cyclonedds_ws/ /opt/unitree_ros2_libs
 WORKDIR /opt/unitree_ros2_libs
 RUN source /opt/ros/humble/setup.bash && \
     colcon build --packages-select unitree_api unitree_go unitree_hg
 
 
-# 7. Configurar variables de entorno clave (ROS y DDS), Fast DDS para Isaac Sim
+# 7. Configurar SUDO universal (sin contraseña para cualquier usuario)
+RUN echo "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers   
+
+# 8. Configurar variables de entorno clave (ROS y DDS), Fast DDS para Isaac Sim
 ENV ROS_DOMAIN_ID=0
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 ENV FASTRTPS_DEFAULT_PROFILES_FILE=/opt/ros/fastdds.xml
@@ -55,12 +60,17 @@ ENV FASTRTPS_DEFAULT_PROFILES_FILE=/opt/ros/fastdds.xml
 # SDK de Unitree tiene su propia configuración de CycloneDDS
 ENV CYCLONEDDS_URI=file:///workspace/cyclonedds_ws/src/cyclonedds.xml
 
-# 8. Directorio de trabajo
+# 9. Copiar y preparar el script de entrada
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# 10. Directorio de trabajo
 WORKDIR /workspace
 
-# 7. Cargar ROS 2 y los mensajes de unitree automáticamente
+# 11. Cargar ROS 2 y los mensajes de unitree automáticamente
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
     echo "source /opt/unitree_ros2_libs/install/setup.bash" >> ~/.bashrc && \
     echo 'if [ -f "/workspace/install/setup.bash" ]; then source "/workspace/install/setup.bash"; fi' >> ~/.bashrc
 
+ENTRYPOINT [ "/entrypoint.sh" ]
 CMD ["bash"]

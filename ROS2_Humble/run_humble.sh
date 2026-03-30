@@ -6,7 +6,7 @@ USER_ID=$(id -u)
 GROUP_ID=$(id -g)
 USER_NAME=$(whoami)
 LOCAL_WORKSPACE="$(pwd)"
-DOCKER_IMAGE="ros2_humble:env"
+DOCKER_IMAGE="ros2_humble:base"
 
 # 2. Dar permisos al entorno gráfico de Ubuntu para recibir ventanas (RViz, rqt, etc.)
 xhost +local: > /dev/null

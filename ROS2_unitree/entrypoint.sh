@@ -5,7 +5,7 @@
 echo ">>> [Entrypoint] Iniciando script personalizado..."
 
 #Desactivamos set -e para que no muera el proceso con algún error.
-set -e
+set +e
 
 
 USER_ID=${LOCAL_UID:-1000}

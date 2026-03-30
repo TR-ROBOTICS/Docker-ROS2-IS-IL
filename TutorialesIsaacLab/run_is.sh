@@ -27,3 +27,8 @@ docker run --name "$USER"-isaac-sim --entrypoint bash -it --rm \
     -v "$CURRENT_DIR":/"$DIR_NAME":rw \
     -u 1234:1234 \
     $IMAGE \
+
+
+echo "Restaurando permisos de los archivos generados por Isaac Sim..."
+docker run --rm --entrypoint bash -v "$CURRENT_DIR":/"$DIR_NAME" -u root $IMAGE -c "chown -R $(id -u):$(id -g) /\"$DIR_NAME\""
+echo "¡Listo! Ya puedes editar todos los archivos en tu PC sin problemas de permisos."
