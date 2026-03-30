@@ -1,0 +1,61 @@
+{
+    "name": " (${localEnv:USER}) ROS 2 Humble",
+    "image": "ros2_humble:env",
+    // "build": {
+    //     "dockerfile": "../Dockerfile",
+    //     "context": "..",
+    //     "args": {
+    //         // Pasamos los argumentos de construcción si fueran necesarios, 
+    //         // aunque nuestro entrypoint.sh maneja la creación de usuario al vuelo.
+    //         "USERNAME": "${localEnv:USER}"
+    //     }
+    // },
+
+    // 1. Replicamos los flags de --network y --ipc del run.sh
+    "runArgs": [
+        "--network=host",
+        "--ipc=host",
+        "--cap-add=SYS_PTRACE",
+        "--security-opt", "seccomp=unconfined",
+        "-v", "/tmp/.X11-unix:/tmp/.X11-unix",
+        "-v", "${localEnv:HOME}/.Xauthority:/home/${localEnv:USER}/.Xauthority"
+    ],
+
+    // 2. Variables de entorno (Equivalente a -e en docker run)
+    "containerEnv": {
+        "DISPLAY": "${localEnv:DISPLAY}",
+        "LOCAL_UID": "${localEnv:USER_ID}",
+        "LOCAL_GID": "${localEnv:GROUP_ID}",
+        "LOCAL_USER": "${localEnv:USER}",
+        // Forzamos el archivo de configuración de FastDDS
+        "FASTRTPS_DEFAULT_PROFILES_FILE": "/opt/ros/fastdds.xml"
+    },
+
+    "overrideCommand": false,
+    "remoteUser": "${localEnv:USER}",
+
+    "updateRemoteUserUID": true,
+
+    // 3. Configuración de VS Code dentro del contenedor
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-iot.vscode-ros",
+                "ms-vscode.cpptools",
+                "ms-python.python",
+                "redhat.vscode-xml",
+                "twxs.cmake"
+            ],
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash"
+            }
+        }
+    },
+
+    // 5. Montaje del workspace (VS Code lo hace por defecto, pero aquí aseguramos la ruta)
+    "workspaceFolder": "/workspace",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+
+    // Si necesitas ejecutar algo después de que se cree el contenedor
+    "postCreateCommand": "sudo chown -R $(whoami) /workspace"
+}

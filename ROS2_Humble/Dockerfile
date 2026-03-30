@@ -14,6 +14,8 @@ COPY fastdds.xml /opt/ros/fastdds.xml
 
 # 4. Instalar herramientas limpias (sin paquetes incompatibles)
 RUN apt-get update && apt-get install -y \
+    sudo \
+    gosu \
     git \
     ros-humble-joint-state-publisher-gui \
     ros-humble-ros2-control \
@@ -30,16 +32,24 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
-# 5. Configurar variables de entorno clave (ROS y DDS)
+# 5. Configurar SUDO universal (sin contraseña para cualquier usuario)
+RUN echo "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers    
+
+# 6. Configurar variables de entorno clave (ROS y DDS)
 ENV ROS_DOMAIN_ID=0
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 ENV FASTRTPS_DEFAULT_PROFILES_FILE=/opt/ros/fastdds.xml
 
-# 6. Directorio de trabajo
+# 7. Copiar y preparar el script de entrada
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# 8. Directorio de trabajo
 WORKDIR /workspace
 
-# 7. Cargar ROS 2 automáticamente
+# 9. Cargar ROS 2 automáticamente
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
     echo 'if [ -f "/workspace/install/setup.bash" ]; then source "/workspace/install/setup.bash"; fi' >> ~/.bashrc
 
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["bash"]
