@@ -17,6 +17,17 @@ Este repo incluye tres componentes principales:
 
 ---
 
+## Requisitos y dependencias
+
+Dependencias mínimas (lo más evidente):
+
+- Docker Engine (por ejemplo >= 20.10) instalado en el host.
+- Si vas a usar GPU con Isaac Sim / Isaac Lab: controladores NVIDIA instalados y NVIDIA Container Toolkit (nvidia-docker) para pasar la GPU al contenedor.
+- Opcional para GUI: X11 (DISPLAY/sockets) o la configuración necesaria para reenvío de ventanas.
+
+Si quieres que la sección incluya más detalles (versiones concretas de CUDA/cuDNN o la lista completa de paquetes ROS instalados), dímelo y la amplío.
+
+
 ## 2. ROS2 Humble en Docker
 
 ### 2.1 Ubicaciones y versiones
