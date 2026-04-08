@@ -25,7 +25,6 @@ Dependencias mínimas (lo más evidente):
 - Si vas a usar GPU con Isaac Sim / Isaac Lab: controladores NVIDIA instalados y NVIDIA Container Toolkit (nvidia-docker) para pasar la GPU al contenedor.
 - Opcional para GUI: X11 (DISPLAY/sockets) o la configuración necesaria para reenvío de ventanas.
 
-Si quieres que la sección incluya más detalles (versiones concretas de CUDA/cuDNN o la lista completa de paquetes ROS instalados), dímelo y la amplío.
 
 
 ## 2. ROS2 Humble en Docker
